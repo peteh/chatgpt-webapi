@@ -1,0 +1,9 @@
+pychatgpt
+ffmpeg_downloader
+PyPasser
+pocketsphinx
+falcon
+PyVirtualDisplay
+selenium_profiles
+python-decouple
+falcon

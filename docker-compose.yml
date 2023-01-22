@@ -1,0 +1,13 @@
+version: "3.6"
+services:
+    zoffline:
+         image: chatgpt/chatgpt:latest
+         build:
+             context: .
+             dockerfile: Dockerfile
+         container_name: chatgpt-webapi
+         environment:
+            - TZ=Europe/Berlin
+         ports:
+            - 8001:8000
+         restart: unless-stopped
