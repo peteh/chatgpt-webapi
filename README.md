@@ -1,7 +1,32 @@
 # chatgpt-webapi
+
 This project uses pyChatGPT to provide an API endpoint similar to the official text completion endpoint.
 
+## Dependencies
+
+Install the dependencies for the main OS.
+
+```bash
+sudo apt-get install build-essential python3 python3-dev swig libpulse-dev bison libasound2-dev
+```
+
+Start in the root path of the repository and create a new virtual environment.
+
+```bash
+cd app
+python3 -m venv .venv
+```
+
+Activate the environment and install the dependencies
+
+```bash
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
 ## API endpoints
+
+By default the server will be opened on port 8000.
 
 ### Endpoint /v1/completions
 
@@ -23,7 +48,8 @@ Response:
 ```json
 {
     "choices":[
-        {"text":"I am currently running on a computer, processing and generating text based on the prompts given to me by users like you. Is there something specific you would like me to help you with?\n\n"
+        {
+            "text": "I am currently running on a computer, processing and generating text based on the prompts given to me by users like you. Is there something specific you would like me to help you with?\n\n"
         }
     ]
 }
@@ -31,7 +57,7 @@ Response:
 
 ### Endpoint /v1/reset
 
-This is not an official endpoint from OpenAI but it let's you reset the conversation you are currently in. 
+This is not an official endpoint from OpenAI but it let's you reset the conversation you are currently in.
 
 ## Docker
 
