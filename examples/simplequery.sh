@@ -5,7 +5,7 @@ curl http://127.0.0.1:8000/v1/completions \
   -d '{
   "model": "text-davinci-003",
   "prompt": "What is your name?",
-  "max_tokens": 10,
+  "max_tokens": 100,
   "temperature": 1.0
 }' \
 --insecure
