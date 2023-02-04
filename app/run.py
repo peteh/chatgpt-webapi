@@ -9,16 +9,6 @@ class ChatGPTResource(object):
     def __init__(self, openAIUser, openAIPass):
         self._api = ChatGPT(auth_type='openai', email=openAIUser, password=openAIPass)
     
-    def promptToChatGPT(self, prompt):
-        print("Prompt: " + prompt)
-        chatResponseCall = self._api.send_message(prompt)
-        chatResponse = chatResponseCall['message']
-        print("Response: " + chatResponse)
-        return chatResponse 
-    
-    def on_get_completions(self, req, resp):
-        return self.on_post_completions(req, resp)
-
     def on_post_completions(self, req, resp):
         prompt = req.media['prompt']
 
@@ -27,17 +17,20 @@ class ChatGPTResource(object):
             prompt += " - Answer in %d words or less! " % numTokens
         
         
-        chatResponse = self.promptToChatGPT(prompt)
+        print("Prompt: " + prompt)
+        chatResponse = self._api.send_message(prompt)
+        print(chatResponse)
+
         tokensPrompt = len(re.findall(r'\w+', prompt))
-        tokensResponse = len(re.findall(r'\w+', chatResponse))
+        tokensResponse = len(re.findall(r'\w+', chatResponse['message']))
         jsonResponse = {
-                "id":"bla",
+                "id": chatResponse['conversation_id'],
                 "object":"text_completion",
                 "created":1670734183,
                 "model":"text-davinci-003",
                 "choices":[
                     {
-                        'text': chatResponse,
+                        'text': chatResponse['message'],
                         "index":0,
                         "logprobs":None,
                         "finish_reason":"stop"
