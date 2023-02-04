@@ -1,21 +1,19 @@
-# syntax=docker/dockerfile:1
-FROM ultrafunk/undetected-chromedriver:latest
-#FROM python:3.10-alpine
-#FROM python:3.10-slim-bullseye
-#FROM ubuntu:22.10
-#alpine
-#RUN apk update; apk add build-base swig pulseaudio-dev ffmpeg chromium chromium-chromedriver xvfb 
-#debian
-#RUN apt-get update; apt-get install -y build-essential python3 swig libpulse-dev ffmpeg chromium chromium-driver xvfb 
-#ubuntu 2010
-#RUN apt-get update; apt-get install -y build-essential python3 python3-pip swig libpulse-dev ffmpeg chromium-browser chromium-driver xvfb 
-# undetected chromedriver
+FROM python:3.9-slim-bullseye
+
+RUN apt-get update && \
+    apt-get install -y chromium xvfb chromium-driver 
+
+COPY . /app
+WORKDIR /app
+# CMD ["python", "main.py"]
+#CMD ["bash"]
 RUN apt-get update; apt-get dist-upgrade; apt-get install -y build-essential python3 swig libpulse-dev 
 WORKDIR /app
 COPY app/ .
-RUN pip3 install -r requirements.txt
+RUN pip3 install -U -r requirements.txt
+RUN pip3 install -e pyChatGPT/
 RUN ffdl install -y
-CMD ["python3", "runIdle.py"]
+CMD ["python3", "run.py"]
 
 ENV SERVER_PORT 8000
 EXPOSE 8000/tcp
