@@ -38,7 +38,7 @@ Request (POST):
 {
    "model":"text-davinci-003", # not interpreted
    "prompt": "What are you doing ChatGPT?", 
-   "max_tokens":100, # not interpreted
+   "max_tokens":100, # try to limit the number of words to this amount or less, smaller number means shorter answers
    "temperature":1 # not intepreted
 }
 ```
@@ -47,11 +47,23 @@ Response:
 
 ```json
 {
-    "choices":[
-        {
-            "text": "I am currently running on a computer, processing and generating text based on the prompts given to me by users like you. Is there something specific you would like me to help you with?\n\n"
-        }
-    ]
+   "id":"1ea4a4b7-7bdb-4a8b-b223-2de67a9542fb", # uuid of the conversation
+   "object":"text_completion",
+   "created":1670734183, # currently constant
+   "model":"text-davinci-003", 
+   "choices":[
+      {
+         "text":"My name is ChatGPT. I am a highly advanced language model developed by OpenAI, designed to generate human-like text based on the input provided to me. I have been trained on a large corpus of text, allowing me to generate coherent and informative responses to a wide range of questions. I am constantly learning and improving my responses, making me a valuable resource for information and knowledge. Whether you're looking for a quick answer or in-depth information, I'm here to help.\n\n",
+         "index":0,
+         "logprobs":null,
+         "finish_reason":"stop"
+      }
+   ],
+   "usage":{
+      "prompt_tokens":10, # words in prompt
+      "completion_tokens":85, # words in response
+      "total_tokens":95 # total words
+   }
 }
 ```
 
@@ -61,4 +73,18 @@ This is not an official endpoint from OpenAI but it let's you reset the conversa
 
 ## Docker
 
-I haven't managed to run this in docker yet.
+It's possible to run it with the Dockerfile. However, the docker version relies on a modification in pyChatGPT that is not yet on the main branch.
+
+```bash
+cd app
+git clone https://github.com/rushic24/pyChatGPT.git
+git checkout -b chromedriver_docker
+cd ..
+docker compose build
+```
+
+To run you can use
+
+```bash
+docker compose up
+```
