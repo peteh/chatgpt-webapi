@@ -4,12 +4,6 @@ This project uses pyChatGPT to provide an API endpoint similar to the official t
 
 ## Dependencies
 
-Install the dependencies for the main OS.
-
-```bash
-sudo apt-get install build-essential python3 python3-dev swig libpulse-dev bison libasound2-dev
-```
-
 Start in the root path of the repository and create a new virtual environment.
 
 ```bash
@@ -73,13 +67,9 @@ This is not an official endpoint from OpenAI but it let's you reset the conversa
 
 ## Docker
 
-It's possible to run it with the Dockerfile. However, the docker version relies on a modification in pyChatGPT that is not yet on the main branch.
+It's possible to run it with the Dockerfile. Update the environment variables in the docker-compose.yaml file to your login credentials. Then build the container.
 
 ```bash
-cd app
-git clone https://github.com/rushic24/pyChatGPT.git
-git checkout -b chromedriver_docker
-cd ..
 docker compose build
 ```
 

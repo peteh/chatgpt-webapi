@@ -51,17 +51,17 @@ class ChatGPTResource(object):
         resp.text = json.dumps(jsonResponse)
 
     def on_get_reset(self, req, resp):
-        self._api.reset_conversation()
+        self._api.rollback_conversation()
         jsonResponse = {'message': 'OK'}
         resp.text = json.dumps(jsonResponse)
     
     def on_get_refresh(self, req, resp):
-        self._api.refresh_chat_page()
+        # TODO: this does nothing for now
         jsonResponse = {'message': 'OK'}
         resp.text = json.dumps(jsonResponse)
     
     def on_get_clear(self, req, resp):
-        self._api.clear_conversations()
+        self._api.reset_chat()
         jsonResponse = {'message': 'OK'}
         resp.text = json.dumps(jsonResponse)
 
