@@ -2,13 +2,17 @@ import falcon
 import json
 from wsgiref import simple_server
 import re
-from pyChatGPT import ChatGPT
+#from pyChatGPT import ChatGPT
+from revChatGPT.V1 import Chatbot
 from decouple import config
 
 class ChatGPTResource(object):
     def __init__(self, openAIUser, openAIPass):
-        self._api = ChatGPT(auth_type='openai', email=openAIUser, password=openAIPass)
-    
+        #self._api = ChatGPT(auth_type='openai', email=openAIUser, password=openAIPass)
+        self._api = Chatbot(config={
+        "email": openAIUser,
+        "password": openAIPass
+        })
     def on_post_completions(self, req, resp):
         prompt = req.media['prompt']
 
@@ -18,7 +22,9 @@ class ChatGPTResource(object):
         
         
         print("Prompt: " + prompt)
-        chatResponse = self._api.send_message(prompt)
+        chatResponse = ""
+        for data in self._api.ask(prompt):
+            chatResponse = data
         print(chatResponse)
 
         tokensPrompt = len(re.findall(r'\w+', prompt))

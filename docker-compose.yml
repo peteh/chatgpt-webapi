@@ -1,13 +1,15 @@
 version: "3.6"
 services:
-    zoffline:
+    chatgpt-webapi:
          image: chatgpt/chatgpt:latest
          build:
-             context: .
-             dockerfile: Dockerfile
+            context: .
+            dockerfile: Dockerfile
          container_name: chatgpt-webapi
          environment:
-            - TZ=Europe/Berlin
+            - OPENAI_USER=your@login.de
+            - OPENAI_PASS=yourpass
          ports:
             - 8000:8000
+         
          restart: unless-stopped
