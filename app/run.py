@@ -9,10 +9,14 @@ from decouple import config
 class ChatGPTResource(object):
     def __init__(self, openAIUser, openAIPass):
         #self._api = ChatGPT(auth_type='openai', email=openAIUser, password=openAIPass)
+        self._conversationId = None
+
         self._api = Chatbot(config={
         "email": openAIUser,
         "password": openAIPass
         })
+
+
     def on_post_completions(self, req, resp):
         prompt = req.media['prompt']
 
@@ -23,9 +27,10 @@ class ChatGPTResource(object):
         
         print("Prompt: " + prompt)
         chatResponse = ""
-        for data in self._api.ask(prompt):
+        for data in self._api.ask(prompt, self._conversationId):
             chatResponse = data
         print(chatResponse)
+        self._conversationId = chatResponse['conversation_id']
 
         tokensPrompt = len(re.findall(r'\w+', prompt))
         tokensResponse = len(re.findall(r'\w+', chatResponse['message']))
@@ -51,7 +56,8 @@ class ChatGPTResource(object):
         resp.text = json.dumps(jsonResponse)
 
     def on_get_reset(self, req, resp):
-        self._api.rollback_conversation()
+        self._api.reset_chat()
+        self._conversationId = None
         jsonResponse = {'message': 'OK'}
         resp.text = json.dumps(jsonResponse)
     
@@ -62,6 +68,7 @@ class ChatGPTResource(object):
     
     def on_get_clear(self, req, resp):
         self._api.reset_chat()
+        self._conversationId = None
         jsonResponse = {'message': 'OK'}
         resp.text = json.dumps(jsonResponse)
 
