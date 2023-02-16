@@ -26,11 +26,15 @@ class ChatGPTResource(object):
         
         
         print("Prompt: " + prompt)
-        chatResponse = ""
+        chatResponse = {}
         for data in self._api.ask(prompt, self._conversationId):
             chatResponse = data
         print(chatResponse)
-        self._conversationId = chatResponse['conversation_id']
+        if 'conversation_id' not in chatResponse:
+            print("Failed to recover conversationId, resetting")
+            self._conversationId = None
+        else:
+            self._conversationId = chatResponse['conversation_id']
 
         tokensPrompt = len(re.findall(r'\w+', prompt))
         tokensResponse = len(re.findall(r'\w+', chatResponse['message']))
